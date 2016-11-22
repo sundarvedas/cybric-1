@@ -1,0 +1,443 @@
+﻿<!DOCTYPE html>
+<html ng-app="CybricApp">
+<head>
+    <meta charset="utf-8" />
+    <title>Cybric - Continuous Security Delivery Platform</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="Cybric, INC." name="author" />
+    <!-- <link rel="shortcut icon" href="https://cybric.io/images/fabric-avatar.png" /> -->
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="/assets/global/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="/assets/global/css/components-rounded.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="/assets/layouts/layout2/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/layouts/layout2/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="/assets/layouts/layout2/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/layouts/layout2/css/datetime-picker.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid" ng-controller="AddPolicy">
+    <!-- Navigation -->
+    <div id="nav" ng-include="'Navigation.html'"></div>
+    <!-- End Navigation -->
+    <!-- BEGIN HEADER & CONTENT DIVIDER -->
+    <div class="clearfix"> </div>
+    <!-- END HEADER & CONTENT DIVIDER -->
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container">
+
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <!-- BEGIN CONTENT BODY -->
+            <div class="page-content" style="min-height:386px">
+
+                <div id="alert-error" class="alert alert-danger alert-dismissible" role="alert" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="msg"></div>
+                </div>
+                <div id="alert-success" class="alert alert-success alert-dismissible" role="alert" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="msg"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="cybric-table-title">Create a new policy</div>
+
+                        <form class="form-horizontal" role="form">
+                            <div class="portlet light cybric-box">
+                                <div class="portlet-title">
+                                    <div class="caption uppercase green">
+                                        <span class="caption-subject font-dark bold">Policy Info</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                    <!-- <form class="form-horizontal" role="form"> -->
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Policy Title</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" ng-model="name" name="name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Policy Description</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" ng-model="description" name="description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- </form> -->
+                                </div>
+                            </div>
+
+                            <div class="portlet light cybric-box">
+                                <div class="portlet-title">
+                                    <div class="caption uppercase green">
+                                        <span class="caption-subject font-dark bold">Target</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                    <!-- <form class="form-horizontal" role="form"> -->
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Target Type</label>
+                                            <div class="col-md-8">
+                                                <!--<div class="mt-radio-inline">
+                                                    <label class="mt-radio mt-radio-outline">
+                                                        <input type="radio" name="PType" value="AWS" ng-model="provider_type.name" ng-change="getradiovalue(provider_type.name)" > Environment
+                                                        <span></span>
+                                                    </label>
+                                                    <label class="mt-radio mt-radio-outline">
+                                                        <input type="radio" name="PType" value="GITHUB" ng-model="provider_type.name" ng-change="getradiovalue(provider_type.name)"> Repository
+                                                        <span></span>
+                                                    </label>
+                                                </div>-->
+                                                <!--<div class="col-md-5">-->
+
+
+                                                    <select class="form-control" name="env_flavor" id="env_flavor"
+                                                            ng-options="option.data.name as option.data.description for option in EnvTypes"
+                                                            ng-model="environModel" ng-change="environModelChange(environModel)"></select>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="aws-section quick-provider-section">
+                                            <div class="form-group">
+                                                <!--<label class="col-md-2 control-label" ng-show="provider_type.name == 'AWS'" ng-hide="provider_type.name == 'GITHUB'">Environment</label>
+                                                <label class="col-md-2 control-label" ng-show="provider_type.name == 'GITHUB'" ng-hide="provider_type.name == 'AWS'">Account</label>-->
+
+                                                <label id="lblEnv" class="col-md-2 control-label">Integration</label>
+                                                <label id="lblAcct" class="col-md-2 control-label" style="display:none;">Account</label>
+
+                                                <div class="col-md-3">
+
+
+                                                    <select class="form-control" name="cmbEnvironment" id="cmbEnvironment" ng-show="provider_type.name == 'AWS' || provider_type.name == 'DIRECT' || provider_type.name == 'BITBUCKET' || provider_type.name == 'ZERTO'"
+                                                            ng-hide="provider_type.name == 'GITHUB'"
+                                                            ng-options="option.id as option.data.name for option in Environments"
+                                                            ng-model="selectedItemvalue"></select>
+                                                <!--</div>
+                                                <div class="col-md-3">-->
+
+
+                                                    <select class="form-control" name="cmbRepositories" id="cmbRepositories" ng-show="provider_type.name == 'GITHUB'"
+                                                            ng-hide="provider_type.name == 'AWS' || provider_type.name == 'DIRECT' || provider_type.name == 'BITBUCKET' || provider_type.name == 'ZERTO'"
+                                                            ng-options="option.id as option.data.name for option in Environments"
+                                                            ng-model="selectedItemvalue"></select>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" id="btnDiscover" ng-disabled="discoverdisable" class="btn-discover-repo btn blue btn-default" ng-click="Discover()">
+                                                        <strong>Start Discovery</strong>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group last">
+                                                <!--<label id="lblResources" class="control-label col-md-2" ng-show="provider_type.name == 'AWS'" ng-hide="provider_type.name == 'GITHUB'">Resources</label>
+                                                <label id="lblRepositories" class="control-label col-md-2" ng-show="provider_type.name == 'GITHUB'" ng-hide="provider_type.name == 'AWS'">Repositories</label>-->
+
+                                                <label id="lblResources" class="control-label col-md-2">Resources</label>
+                                                <label id="lblRepositories" class="control-label col-md-2" style="display:none;">Repositories</label>
+                                                <label id="lblprojname" class="control-label col-md-2" style="display:none;">Project Name</label>
+
+                                                <div class="col-md-4">
+
+                                                    <select class="form-control" id="policy_repo_sources" name="policy_repo_sources" style="display:none"
+                                                            ng-options="option.full_name as (option.language + ' - ' + option.name) for option in RepositoryResList" ng-model="selectedRepositoryRes"></select>
+
+                                                    <select multiple="multiple" class="form-control multi-select" id="policy_env_sources" name="policy_env_sources"
+                                                            ng-options="v.Value as (v.displayText) group by v.instanceId for v in elist" ng-model="selectedVal" ng-change="BindTargetEnv(selectedVal)" style="min-height:150px;max-height:250px;"></select>
+
+                                                    <input type="text" class="form-control" id="txtip" style="display:none" ng-model="policy_manual_ips" name="policy_manual_ips" placeholder="Enter a comma separated list of IP Addresses...">
+
+                                                    <input type="text" class="form-control" id="txtprojname" style="display:none" ng-model="projname" placeholder="Enter project name...">
+
+                                                </div>
+
+                                                <div class="col-md-1" style="width: 2%; padding:0px;">
+                                                    <img src="images/Refresh-icon.png" id="imgRefresh" style="height:30px;width:auto; margin-top:200%; cursor:pointer;" />
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <select multiple="multiple" class="form-control multi-select" id="policy_env_targets" name="policy_env_targets"
+                                                            ng-options="v.Value as (v.displayText) group by v.instanceId for v in etargetlist" ng-model="selectedTargetVal" ng-change="BindSourceEnv(selectedTargetVal)" style="min-height:150px;max-height:250px;"></select>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- </form> -->
+
+                                </div>
+                            </div>
+
+                            <div class="portlet light cybric-box">
+                                <div class="portlet-title">
+                                    <div class="caption uppercase green">
+                                        <span class="caption-subject font-dark bold">SCENARIO</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div class="mt-radio-inline env-section quick-environment-section">
+                                                        <label class="col-md-2 control-label">Scenarios</label>
+                                                        <div class="col-md-8">
+                                                            <!--<select class="form-control" name="cmbScenarios" id="cmbScenarios" ng-model="selectedScenarios" ng-options="option.id as option.description for option in scenarios"></select>-->
+
+                                                            <select class="form-control" name="cmbScenarios" id="cmbScenarios"
+                                                                    ng-options="option.data.description for option in scenarios track by option.data.name"
+                                                                    ng-model="selectedScenarios"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    <div class="portlet light cybric-box">
+                        <div class="portlet-title">
+                            <div class="caption uppercase green">
+                                <span class="caption-subject font-dark bold">RUN SCHEDULE</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Frequency</label>
+
+                                        <div class="col-md-3">
+                                            <select class="form-control pull-left" ng-model="cmbScheduleduration" id="policy_run_freq" ng-options="model.frequency as model.name for model in FrequencyLst"></select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <span class="pull-left" style="margin-top: 10px;">
+                                                at
+                                            </span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <span class="pull-left" style="margin-top: 10px;">
+                                                Start Date/Time
+                                            </span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input class="bs-select form-control pull-left" ng-model="ScheduleDateTime" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" hour="00" minute='00' />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <span class="pull-left" style="margin-top: 10px;">
+                                                IN GMT
+                                            </span>
+                                        </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                            <!--<div class="portlet light cybric-box">
+                                <div class="portlet-title">
+                                    <div class="caption uppercase green">
+                                        <span class="caption-subject font-dark bold">Run Schedule</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="col-md-1">
+                                                    <div class="mt-checkbox-inline">
+                                                        <label class="mt-checkbox mt-checkbox-outline">
+                                                            <input type="checkbox" name="Scheduled" value="Scheduled" checked="">
+                                                            Scheduled
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-10" style="margin-top: 7px;">
+                                                    <div class="col-md-1">
+                                                        <label> Frequency </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="cmbFrequency" id="cmbFrequency" style="width:90%;">
+                                                            <option>Every Day</option>
+                                                            <option>Every Week</option>
+                                                            <option>Every Month</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1" style="padding:0px; width:2%;">
+                                                        <label> at </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="cmbTime" id="cmbTime" style="width:90%;padding:0px;">
+                                                            <option>12.00 AM</option>
+                                                            <option>1.00 AM</option>
+                                                            <option>2.00 AM</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2" style="padding:0px;">
+                                                        <label> in GMT </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-2">
+                                                    <div class="mt-checkbox-inline">
+                                                        <label class="mt-checkbox mt-checkbox-outline">
+                                                            <input type="checkbox" name="Runnow" value="Runnow">
+                                                            Run Now
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            <div class="portlet light cybric-box">
+                                <div class="portlet-title">
+                                    <div class="caption uppercase green">
+                                        <span class="caption-subject font-dark bold">Notification</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                    <div class="form-body">
+                                        <div class="form-group">
+
+                                            <label class="col-md-2 control-label"><input type="checkbox" id="cbEmail" value="first_checkbox"> Email</label>
+                                            <label class="col-md-1 control-label"><input type="checkbox" id="cbEmailIssues" value="first_checkbox"> Issues</label>
+                                            <label class="col-md-1 control-label"><input type="checkbox" id="cbEmailEvents" value="first_checkbox"> Events</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="policy_emails" name="policy_emails" placeholder="Enter Email Distribution List...">
+                                            </div>
+                                        </div>
+                                      </div>
+
+                                        <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label"><input type="checkbox" id="cbSlack" value="first_checkbox"> Slack</label>
+                                            <label class="col-md-1 control-label"><input type="checkbox" id="cbSlackIssues" value="first_checkbox"> Issues</label>
+                                            <label class="col-md-1 control-label"><input type="checkbox" id="cbSlackEvents" value="first_checkbox"> Events</label>
+                                            <div class="col-md-3">
+                                                <select class="form-control pull-left" ng-model="cmbSlackProvider" id="slack-provider" ng-options=""></select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" id="policy_emails" name="policy_emails" placeholder="Enter Slack Channel...">
+                                            </div>
+                                        </div>
+                                      </div>
+
+                                        <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label"><input type="checkbox" id="cbPagerDuty" value="first_checkbox"> PagerDuty</label>
+                                            <label class="col-md-1 control-label"><input type="checkbox" id="cbPagerDutyIssues" value="first_checkbox"> Issues</label>
+                                            <label class="col-md-1 control-label"><input type="checkbox" id="cbPagerDutyEvents" value="first_checkbox"> Events</label>
+                                            <div class="col-md-3">
+                                                <select class="form-control pull-left" ng-model="cmbPagerDutyProvider" id="pagerduty-provider" ng-options=""></select>
+                                            </div>
+                                        </div>
+                                      </div>
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="cybric-box">
+                                <div class="form-actions right">
+                                    <button type="submit" ng-disabled="policydisable" class="btn blue" ng-click="Createpolicy()">Create Policy</button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- END CONTENT BODY -->
+        </div>
+        <!-- END CONTENT -->
+
+    </div>
+    <!-- END CONTAINER -->
+    <!--[if lt IE 9]>
+    <script src="assets/global/plugins/respond.min.js"></script>
+    <script src="assets/global/plugins/excanvas.min.js"></script>
+    <![endif]-->
+    <!-- ANGULAR SCRIPT -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-cookies.js"></script>
+    <script src="/assets/layouts/layout2/scripts/GlobalFunction.js" type="text/javascript"></script>
+    <!-- BEGIN CORE PLUGINS -->
+    <script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <!-- END CORE PLUGINS -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <!--<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+    <script src="/assets/global/scripts/datatables.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>-->
+
+    <script src="/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+
+    <script src="/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/typeahead/handlebars.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
+
+
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
+    <!-- END THEME GLOBAL SCRIPTS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="/assets/pages/scripts/table-datatables-scroller.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-table/bootstrap-table.min.js" type="text/javascript"></script>
+
+    <script src="/assets/pages/scripts/components-multi-select.min.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/components-bootstrap-select.min.js" type="text/javascript"></script>
+
+    <script src="/assets/pages/scripts/components-bootstrap-tagsinput.min.js" type="text/javascript"></script>
+
+    <!-- BEGIN THEME LAYOUT SCRIPTS -->
+    <script src="/assets/layouts/layout2/scripts/layout.min.js" type="text/javascript"></script>
+    <script src="/assets/layouts/layout2/scripts/demo.min.js" type="text/javascript"></script>
+    <script src="/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+    <script src="/assets/layouts/layout2/scripts/custom.js" type="text/javascript"></script>
+    <script src="/assets/layouts/layout2/scripts/datetime-picker.js" type="text/javascript"></script>
+    <!-- END THEME LAYOUT SCRIPTS -->
+
+    <script src="CybricJS/AddPolicy.js"></script>
+
+
+</body>
+</html>

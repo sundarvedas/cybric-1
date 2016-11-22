@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="CybricApp">
+<head>
+    <meta charset="utf-8" />
+    <title>Cybric - Continuous Security Delivery Platform</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="Cybric, INC." name="author" />
+    <!-- <link rel="shortcut icon" href="https://cybric.io/images/fabric-avatar.png" /> -->
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="/assets/global/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="/assets/global/css/components-rounded.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="/assets/layouts/layout2/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/layouts/layout2/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="/assets/layouts/layout2/css/custom.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid" ng-controller="LoginCtrlr" style="background-color: #eef1f5;">
+    <!-- Navigation -->
+    <div id="nav">
+        <div class="page-header navbar navbar-fixed-top">
+            <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner ">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                  <a class="nav_app_link" data-token="hub">
+                    <img height="48" src="images/cybric-logo.png" alt="logo" class="logo-default">
+                  </a>
+
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                <!-- BEGIN PAGE ACTIONS -->
+                <!-- DOC: Remove "hide" class to enable the page header actions -->
+                <div class="page-actions" style="display: none;">
+
+                    <div class="btn-group cybric-header-btngroup">
+                        <button class="btn btn-top-cybric btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                            <span id="current_nav_view">Policies</span>
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul id="nav_views" class="dropdown-menu" role="menu"><li class="active"><a class="nav_view_link" data-token="ops/policies" href="#ops/policies">Policies</a></li></ul>
+                    </div>
+
+                    <span class="cybric-topbtn-divider">/</span>
+
+                    <div class="btn-group cybric-header-btngroup">
+                        <button class="btn btn-top-cybric btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                            <span id="current_nav_action">View All</span>
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul id="nav_actions" class="dropdown-menu" role="menu"><li class="active"><a class="nav_action_link" data-token="ops/policies/all" href="#ops/policies/all">View All</a></li><li><a class="nav_action_link" data-token="ops/policies/new" href="#ops/policies/new">Add New</a></li></ul>
+                    </div>
+
+                </div>
+                <!-- END PAGE ACTIONS -->
+                <!-- BEGIN PAGE TOP -->
+                <div class="page-top" style="display: none;">
+                    <!-- BEGIN TOP NAVIGATION MENU -->
+                    <div class="top-menu">
+                        <ul class="nav navbar-nav pull-right">
+                            <!-- BEGIN USER LOGIN DROPDOWN -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            <li class="dropdown dropdown-user">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <img alt="avatar" class="avatar img-circle" onblur="this.src = get_state(CURRENT_USER_PICTURE);">
+                                    <span class="nickname username username-hide-on-mobile"></span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-default">
+                                    <li>
+                                        <a class="nav_app_link" href="#cfg/settings/profile" data-token="cfg">
+                                            <i class="icon-user"></i> My Profile
+                                        </a>
+                                    </li>
+                                    <!-- <li>
+                                        <a class="nav_app_link" href="#cfg/settings/account" data-token="cfg">
+                                            <i class="icon-lock"></i> My Account
+                                        </a>
+                                    </li> -->
+                                    <li class="divider"> </li>
+                                    <li style="padding: 10px 10px;">
+                                        <button id="logout-btn" href="Login.html" class="btn btn-info btn-block">
+                                            Log Out
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END USER LOGIN DROPDOWN -->
+                        </ul>
+                    </div>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>
+                <!-- END PAGE TOP -->
+            </div>
+            <!-- END HEADER INNER -->
+        </div>
+    </div>
+    <!-- End Navigation -->
+    <div class="clearfix"> </div>
+    <!-- Page Content -->
+    <div class="page-container">
+        <div class="page-content-wrapper">
+            <div class="page-content" style="min-height:200px">
+                <div id="alert-error" class="alert alert-danger alert-dismissible" role="alert" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="msg">{{ErrorMessage}}</div>
+                </div>
+                <div id="alert-success" class="alert alert-success alert-dismissible" role="alert" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="msg"></div>
+                </div>
+                <!-- LOAD PAGE CONTENT HERE -->
+
+                <div class="page-payload">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <form class="form-horizontal" role="form">
+                                <div class="portlet light cybric-box">
+                                    <div class="portlet-title">
+                                        <div class="caption uppercase green">
+                                            <span class="caption-subject font-dark bold">Log In</span>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body form">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">Username</label>
+                                                <div class="col-md-10" >
+                                                    <input id="login_username" type="text" class="form-control" ng-model="username"  placeholder="Enter your email address..." required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Password</label>
+                                            <div class="col-md-10">
+                                                <input id="login_password" type="password" class="form-control" ng-model="password"   placeholder="Enter your password..." required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Platform</label>
+                                            <div class="col-md-10">
+                                                <select class="form-control" ng-model="cmbPlatForm">
+                                                    <option value="https://api.dev.cybric.us">Dev</option>
+                                                    <option value="https://api.stage.cybric.us">Stage</option>
+                                                    <option value="https://api.cybric.io">Prod</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cybric-box">
+                                    <div class="form-actions right">
+                                        <button type="submit" nid="btnsubmit" class="btn-login btn btn-lg blue" ng-click="loginsubmit()"><strong>{{btnsubmit}}</strong></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Content -->
+    <!-- Core JQuery -->
+    <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="assets/global/plugins/respond.min.js"></script>
+      <script src="assets/global/plugins/excanvas.min.js"></script>
+    <![endif]-->
+    <!-- ANGULAR SCRIPT -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-cookies.js"></script>
+    <script src="/assets/layouts/layout2/scripts/GlobalFunction.js" type="text/javascript"></script>
+    <!-- BEGIN CORE PLUGINS -->
+    <script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <!--<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+    <script src="/assets/global/scripts/datatable.min.js" type="text/javascript"></script>-->
+    <script src="/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="/assets/pages/scripts/table-datatables-scroller.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-table/bootstrap-table.min.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/components-multi-select.min.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/components-bootstrap-select.min.js" type="text/javascript"></script>
+    <!-- BEGIN THEME LAYOUT SCRIPTS -->
+    <script src="/assets/layouts/layout2/scripts/layout.min.js" type="text/javascript"></script>
+    <script src="/assets/layouts/layout2/scripts/demo.min.js" type="text/javascript"></script>
+    <script src="/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+    <script src="/assets/layouts/layout2/scripts/custom.js" type="text/javascript"></script>
+    <!-- END THEME LAYOUT SCRIPTS -->
+    <!-- fabric scripts -->
+    <script src="CybricJS/Login.js"></script>
+
+
+
+</body>
+
+</html>

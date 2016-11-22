@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html ng-app="CybricApp">
+<head>
+    <meta charset="utf-8" />
+    <title>Cybric - Continuous Security Delivery Platform</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="Cybric, INC." name="author" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+     <!-- <link rel="shortcut icon" href="https://cybric.io/images/fabric-avatar.png"/> -->
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="/assets/global/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="/assets/global/css/components-rounded.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="/assets/layouts/layout2/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/layouts/layout2/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="/assets/layouts/layout2/css/custom.min.css" rel="stylesheet" type="text/css" />
+
+
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid" ng-controller="Policylst" type="text/css">
+    <!-- Navigation -->
+    <div id="nav" ng-include="'Navigation.html'"></div>
+    <!-- End Navigation -->
+    <div class="clearfix"> </div>
+    <!-- Page Content -->
+    <div class="page-container">
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <div id="alert-error" class="alert alert-danger alert-dismissible" role="alert" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="msg"></div>
+                </div>
+                <div id="alert-success" class="alert alert-success alert-dismissible" role="alert" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="msg"></div>
+                </div>
+                <!-- LOAD PAGE CONTENT HERE -->
+
+                <div class="page-payload" >
+                    <div class="cybric-table-title">
+                        All Policies
+                        <a class="nav_app_link" href="AddPolicy.html" data-token="srv">
+                            <button type="button" ng-disabled="policydisable" class="pull-right btn-add-policy-list btn blue">Add Policy</button>
+                        </a>
+                    </div>
+                    <div id="p-list" ng-repeat="Plst in Policylist | orderBy: '-meta.lastUpdated'">
+                        <div class="portlet light cybric-box">
+                            <div class="portlet-title tabbable-line">
+                                <div class="caption">
+                                    <span class="caption-subject font-dark bold">
+                                        <i class="fa fa-circle status-green" id="badge-{{Plst.id}}"></i>
+                                        {{Plst.data.name}}
+                                    </span>
+                                    <span class="label label-default"><label>{{Plst.data.scenarios | removeChar}}</label></span>
+                                </div>
+                            <div class="actions">
+                                <a class="btn btn-circle btn-icon-only btn-default run-policy-all" ng-click="RunPolicyJob(Plst.id,Plst.name)">
+                                    <i class="icon-energy" title="Run Now"></i>
+                                </a>
+                                <a class="btn btn-circle btn-icon-only btn-default edit-policy" ng-click="">
+                                    <i class="icon-list" title="Edit"></i>
+                                </a>
+                                <a class="btn btn-circle btn-icon-only btn-default archive-policy" ng-click="">
+                                    <i class="icon-trash" title="Archive"></i>
+                                </a>
+                                <a class="btn btn-circle btn-icon-only btn-default duplicate-policy" ng-click="popupopen(Plst.id,Plst.name)">
+                                    <i class="icon-docs" title="Duplicate"></i>
+                                </a>
+
+                                <div class="cybric-action-btn btn-group pull-right">
+                                    <a class="btn btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="false">
+                                        <i class="cybric-icon-more"></i>
+                                    </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a >Edit</a></li>
+                                    <li><a >Archive</a></li>
+                                    <li><a ng-click="popupopen(Plst.id,Plst.name)">Duplicate</a></li>
+                                </ul>
+                                </div>
+                             </div>
+                           </div>
+                        <div class="portlet-body">
+                            <p><strong>Policy id:</strong> {{Plst.id}}
+                            <p ng-show="Plst.data.description.length"><strong>Description: </strong>{{Plst.data.description}}    [Created on: {{Plst.meta.created | date:"MM/dd/yyyy 'at' h:mma"}}]</p>
+                            <p ng-show="!Plst.data.description.length">[Created on: {{Plst.meta.created | date:"MM/dd/yyyy 'at' h:mma"}}]</p>
+                            <p><strong>
+                                <i class="fa fa-shield"></i> Policy:</strong> Not Scheduled.
+                            </p>
+
+
+                            <div class="cybric-collapse-head" data-toggle="collapse" href="#all-policy-asset-panel{{Plst.id}}"  aria-controls="all-policy-asset-panel{{Plst.id}}">
+                              <i class="fa fa-caret-right"></i> Show Targets ({{Plst.data.targets.length}})
+                            </div>
+
+                            <div class="collapse" id="all-policy-asset-panel{{Plst.id}}" >
+                              <!-- <span>{{Plst.pretty_target}}</span> -->
+                              <ul style="list-style-type:disc" ng-repeat="tgt in Plst.targets">
+                                <li>{{tgt}}</li>
+                              </ul>
+                          </div>
+
+                            <!-- <div class="collapse" id="all-policy-asset-panel{{Plst.id}}"> -->
+                                  <!-- <pre class="note note-info" ng-="agular.fromJSon(Plst.targets)">{{Plst.targets}}</pre> -->
+                                  <!--
+                                  <div class="note note-info" ng-show="Plst.envtype == 'direct' || Plst.envtype == 'github' || (Plst.envtype == 'aws' && Plst.targets.length == 1)">
+                                      <pre >{{Plst.targets}}</pre>
+                                  </div>
+
+                                  <div class="note note-info" ng-show="Plst.envtype == 'aws' && Plst.targets.length > 1">
+                                      <pre >{{Plst.targets}}</pre>
+                                      <a ng-click="showTargets(this)"> <h5 class="block">Targets: {{Plst.targets.length}}</h5> </a>
+                                        <select multiple="multiple" class="form-control multi-select" id="policy_env_targets{{Plst.id}}" style="display: block;"
+                                              ng-options="v.Value as (v.displayText) group by v.instanceId for v in etargetlist" ng-model="selectedTargetVal"></select>
+
+                                  </div>
+                                -->
+                            <!-- </div> -->
+
+                            <div class="cybric-collapse-head" data-toggle="collapse" href="#all-policy-runs{{Plst.id}}"  aria-controls="all-policy-runs{{Plst.id}}" ng-click="policydetail(Plst.id, true)">
+                              <i class="fa fa-caret-right"></i> Show Recent Runs
+                                  <!-- <a ng-show="Plst.gotRuns" class="btn btn-circle btn-icon-only btn-default get-runs" ng-click="policydetail(Plst.id, true)">
+                                        <i class="icon-refresh" title="Get Runs"></i>
+                                  </a> -->
+                            </div>
+
+                            <div class="collapse" id="all-policy-runs{{Plst.id}}" >
+                              <p<i>{{Plst.policyRunsMessage}}</i> </p>
+
+                              <!-- Show table with issues if the job completed  -->
+                              <table id="policy_runs{{Plst.id}}" class="issue-run-table list-table cybric-table" cellspacing="0" data-height="0">
+                                    <!-- <thead><style>tr:nth-of-type(even) {background-color: #f5f8fd;} </style>
+                                    </thead> -->
+                                    <tbody id="policy-run-list">
+                                        <tr ng-repeat="Rlst in Plst.runs">
+
+                                            <td class="rank"></td>
+
+                                            <td class="col4">
+                                              <!-- <a name="{{Rlst.id}}" id="{{Rlst.id}}" ng-click="popupjobissue(Plst.id, Rlst.id,Rlst.meta.lastUpdated)">{{Rlst.meta.lastUpdated | date:"MM/dd/yyyy 'at' h:mma"}}</a> -->
+
+                                              <div class="cybric-collapse-head" data-toggle="collapse" href="#all-policy-details{{Rlst.id}}"  aria-controls="all-policy-details{{Rlst.id}}" ng-click="popupjobissue(Plst.id, Rlst.id,Rlst.meta.lastUpdated)">
+                                                  <i class="fa fa-caret-right"></i>{{Rlst.meta.lastUpdated | date:"MM/dd/yyyy 'at' h:mma"}}
+                                              </div>
+
+                                              <div class="collapse" id="all-policy-details{{Rlst.id}}">
+                                              <div ng-show="!Rlst.issues.length">No Issues...</div>
+                                              <table ng-show="Rlst.issues.length" id="cybric-table" class="issue-run-table list-table cybric-table" cellspacing="0" data-height="12" data-width="25">
+                                                  <thead>
+                                                      <tr><h5>{{Rlst.runStatus}}</h5></tr>
+                                                      <tr>
+                                                          <!-- <th class="rank">&nbsp;</th> -->
+                                                          <th class="col2">Target</th>
+                                                           <th class="col2">Name</th>
+                                                           <th class="col2">Type</th>
+                                                           <th class="col4">Description</th>
+                                                          <!-- <th class="col3">Details</th> -->
+
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <tr ng-repeat="Islst in Rlst.issues">
+                                                          <!-- <td class="rank"></td> -->
+                                                          <td class="col-md-4">{{Islst.issue.target}}</td>
+                                                           <td class="col-md-4">{{Islst.issue.name}}</td>
+                                                           <td class="col-md-2">{{Islst.issue.type}}</td>
+                                                          <td class="col-md-8">{{Islst.issue.description}}</td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+
+                                            </div>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                              </table>
+                            </div>
+
+
+                                </div>
+                            </div>
+
+</div>
+
+                                </div>
+                            </div>
+        </div>
+    </div>
+
+
+    <!-- End Page Content -->
+    <!-- Core JQuery -->
+    <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+
+        <!-- ANGULAR SCRIPT -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-cookies.js"></script>
+        <script src="/assets/layouts/layout2/scripts/GlobalFunction.js" type="text/javascript"></script>
+
+
+    <!-- BEGIN CORE PLUGINS -->
+    <script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <!--<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+    <script src="/assets/global/scripts/datatable.min.js" type="text/javascript"></script>-->
+    <script src="/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="/assets/pages/scripts/table-datatables-scroller.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-table/bootstrap-table.min.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/components-multi-select.min.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/components-bootstrap-select.min.js" type="text/javascript"></script>
+    <!-- BEGIN THEME LAYOUT SCRIPTS -->
+    <script src="/assets/layouts/layout2/scripts/layout.min.js" type="text/javascript"></script>
+    <script src="/assets/layouts/layout2/scripts/demo.min.js" type="text/javascript"></script>
+    <script src="/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+    <script src="/assets/layouts/layout2/scripts/custom.js" type="text/javascript"></script>
+    <!-- END THEME LAYOUT SCRIPTS -->
+    <!-- Cybric scripts -->
+    <script src="CybricJS/Policy.js"></script>
+
+
+  </body>
+</html>
